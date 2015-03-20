@@ -96,14 +96,15 @@ namespace PluralSightDownloader
             Dictionary<string, Dictionary<string, string>> main = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(tbJson.Text);
             lbParsedJson.Text = "done";
 
-            string dlAddress = @"c:\downloads\sql-2012-database-administration-pt3\";
+            string dlAddress = @"c:\downloads\8-csharp-newincs5\";
 
             foreach (var item in main)
             {
-                DirectoryInfo dirInfo = Directory.CreateDirectory(dlAddress + item.Key);
+                string _item = item.Key.Replace(':', '_').Replace('/', ' ').Replace('?', ' ');
+                DirectoryInfo dirInfo = Directory.CreateDirectory(dlAddress + _item);
                 foreach (var urls in item.Value)
                 {
-                    downloadTheFile(dlAddress + item.Key + "\\" + urls.Key.Replace(':', '_').Replace('/',' ').Replace('?',' '), urls.Value);
+                    downloadTheFile(dlAddress + _item + "\\" + urls.Key.Replace(':', '_').Replace('/',' ').Replace('?',' '), urls.Value);
                 }
                 
             }

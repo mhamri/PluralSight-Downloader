@@ -4,7 +4,7 @@ var item = 0;
 var courses;
 var bar = $(".courseProgressBarModuleContainer");
 
-var barItem = 9;
+var barItem = 0;
 var barMax = bar.length;
 var barName = '';
 var courseName = '';
@@ -12,14 +12,14 @@ var courseAdd = '';
 var jsz = '';
 
 
-barmax = bar.length;
+barMax = bar.length;
 
 function readTitle() {
 
     if (barItem < barMax) {
         var $bar = $(bar[barItem]);
         barName = (barItem + 1) + '-' + $bar.attr('title');
-        barName = barName.replace('(Click to navigate)').trim();
+        barName = barName.replace('(Click to navigate)', '').trim();
         result[barName] = {};
 
         $bar.trigger('click');
@@ -45,7 +45,7 @@ function readCourses() {
         var topicFull = (barItem + 1) + '-' + (item + 1) + '- ' + topicDesc + ' ' + topicDur;
         courseName = topicFull;
         $(courses[item]).trigger('click');
-        setTimeout(readVideLink, 3000);
+        setTimeout(readVideLink, 15000);
     } else {
         barItem = barItem + 1;
         item = 0;
