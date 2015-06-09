@@ -45,7 +45,8 @@ function readCourses() {
         var topicFull = (barItem + 1) + '-' + (item + 1) + '- ' + topicDesc + ' ' + topicDur;
         courseName = topicFull;
         $(courses[item]).trigger('click');
-        setTimeout(readVideLink, 15000);
+
+        setTimeout(readVideLink, decideWaitTime(topicDur));
     } else {
         barItem = barItem + 1;
         item = 0;
@@ -53,6 +54,21 @@ function readCourses() {
         courseAdd = '';
         readTitle();
     }
+
+}
+
+function decideWaitTime( duration) {
+    var timeArray = duration.split(':');
+    var min = timeArray[0] * 60;
+    var sec = timeArray[1] * 1 ;
+    var totalSec = min + sec;
+    var totalMiliSec = totalSec * 1000;
+    console.log(totalMiliSec);
+    var minRange = 60000;
+    var maxRange = totalMiliSec/2 ;
+    var waitTime = (Math.random() * (maxRange - minRange)) + minRange;
+    console.log(waitTime);
+    return Math.round(waitTime);
 
 }
 

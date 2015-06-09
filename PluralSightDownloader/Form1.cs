@@ -93,10 +93,11 @@ namespace PluralSightDownloader
 
         private void btnParseJson_Click(object sender, EventArgs e)
         {
+            lbParsedJson.Text = string.Empty;
             Dictionary<string, Dictionary<string, string>> main = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(tbJson.Text);
             lbParsedJson.Text = "done";
 
-            string dlAddress = @"c:\downloads\8-csharp-newincs5\";
+            string dlAddress = @"\\vmware-host\Shared Folders\Desktop\c#\4-practical-reflection\n";
 
             foreach (var item in main)
             {
@@ -104,21 +105,52 @@ namespace PluralSightDownloader
                 DirectoryInfo dirInfo = Directory.CreateDirectory(dlAddress + _item);
                 foreach (var urls in item.Value)
                 {
-                    downloadTheFile(dlAddress + _item + "\\" + urls.Key.Replace(':', '_').Replace('/',' ').Replace('?',' '), urls.Value);
+                    downloadTheFile(dlAddress + _item + "\\" + urls.Key.Replace(':', '_').Replace('/', ' ').Replace('?', ' '), urls.Value);
                 }
-                
+
             }
         }
 
 
-        private void downloadTheFile(string fileName, string url) {
+        private void downloadTheFile(string fileName, string url)
+        {
 
             string ext = Path.GetExtension(url);
             fileName += ext;
-           
+
             WebClient webcl = new WebClient();
             webcl.DownloadFile(url, fileName);
             label1.Text += fileName + "\r\n";
+        }
+
+        private void btnCheckJson_Click(object sender, EventArgs e)
+        {
+            lbParsedJson.Text = string.Empty;
+            Dictionary<string, Dictionary<string, string>> main = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(tbJson.Text);
+
+
+            foreach (var item in main)
+            {
+                foreach (var urls in item.Value)
+                {
+                    int cnt = 0;
+                    string thisOne = urls.Value;
+
+                    foreach (var otherUrl in item.Value)
+                    {
+                        if (otherUrl.Value.Equals(thisOne))
+                            cnt++;
+
+                    }
+
+                    if (cnt > 1)
+                    {
+                        lbParsedJson.Text += urls.Key + "\r\n";
+                        lbParsedJson.Text += thisOne + "\r\n";
+                    }
+                }
+            }
+
         }
     }
 }
